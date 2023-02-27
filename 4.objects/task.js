@@ -22,28 +22,28 @@ function Student(name, gender, age) {
   
   Student.prototype.addMarks = function (...marksToAdd) {
     if (this.marks !== undefined) {     
-      this.marks = marksToAdd;
+      this.marks.push(...marksToAdd);
     } 
   }
   
-  student1.addMarks(4, 5, 4, 5);
+  // student1.addMarks(4, 5, 4, 5);
+  // student1.addMarks(3,3,3);
+  // student1.addMarks(4,4,4);
   // console.log(student1);
 
 
   Student.prototype.getAverage = function () {
-    if (this.marks === undefined) {
-      return 0;
-    } if (this.marks.length <= 0) {
+    if (this.marks === undefined || this.marks.length <= 0) {
       return 0;
     }  else {
       let marksSum = this.marks.reduce((sum,element) => (sum + element));
-      let rezalt = marksSum / this.marks.length;
-      return rezalt; 
+      let result = marksSum / this.marks.length;
+      return result; 
       }  
   }
  
-  // console.log(student1.getAverage()); // 0
-  // console.log(student1.getAverage()); // 4.5
+  console.log(student1.getAverage()); // 0
+  console.log(student1.getAverage()); // 4.5
 
 
   Student.prototype.exclude = function (reason) {
