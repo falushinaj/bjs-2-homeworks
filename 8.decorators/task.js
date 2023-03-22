@@ -38,28 +38,48 @@ const upgraded = cachingDecoratorNew(addAndMultiply);
 // ЗАДАЧА 2
 
 
-function debounceDecoratorNew(func, delay) {
-  let count = 0;
-  let allCount = 0;
-  let timeOut;
+// function debounceDecoratorNew(func, delay) {
+//   let count = 0;
+//   let allCount = 0;
+//   let timeOut;
 
-  function wrapper(...args) {
-    clearTimeout(timeOut);
-    if (allCount === 0) {
+//   function wrapper(...args) {
+//     clearTimeout(timeOut);
+//     if (allCount === 0) {
+//       func.apply(this, args);
+//     }
+//     timeOut = setTimeout(() => {
+//       func.apply(this, args);
+//       count++;
+//     }, delay);
+//     allCount++;
+//   }
+
+//   wrapper.count = () => count;
+//   wrapper.allCount = () => allCount;
+
+//   return wrapper;
+// } 
+
+
+function debounceDecoratorNew(func, delay) {
+  let wrapper = function(...args) {
+    clearTimeout(wrapper.timeOut);
+    if (wrapper.allCount === 0) {
       func.apply(this, args);
     }
-    timeOut = setTimeout(() => {
+    wrapper.timeOut = setTimeout(() => {
       func.apply(this, args);
-      count++;
+      wrapper.count++;
     }, delay);
-    allCount++;
-  }
+    wrapper.allCount++;
+  };
 
-  wrapper.count = () => count;
-  wrapper.allCount = () => allCount;
+  wrapper.count = 0;
+  wrapper.allCount = 0;
 
   return wrapper;
-} 
+}
 
 const sendSignal = (signalOrder, delay) => console.log("Сигнал отправлен", signalOrder, delay);
 const upgradedSendSignal = debounceDecoratorNew(sendSignal, 2000);
